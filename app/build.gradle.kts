@@ -51,7 +51,6 @@ android {
 
 dependencies {
 
-    implementation ("io.supabase:supabase-kt:0.0.3")
     implementation ("io.coil-kt:coil-compose:2.1.0")
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
     implementation("androidx.activity:activity-compose")
