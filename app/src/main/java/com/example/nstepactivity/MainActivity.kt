@@ -89,7 +89,7 @@ class MainActivity : ComponentActivity() {
                     stepCount++
 
                     if (stepCount % 10 == 0L) {
-                        nscoinCount += 200
+                        nscoinCount += 100
                     }
                 }
 
