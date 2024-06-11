@@ -119,7 +119,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
                 Text(
-                    text = "NSCoins: $nscoinCount",
+                    text = "NS코인: $nscoinCount",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
