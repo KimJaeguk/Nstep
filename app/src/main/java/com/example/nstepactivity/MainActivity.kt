@@ -20,8 +20,8 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -126,19 +126,34 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.padding(bottom = 16.dp)
                 )
 
-                Button(onClick = {
-                    val intent = Intent(context, CatDraw::class.java)
-                    intent.putExtra("nscoinCount", nscoinCount)
-                    intent.putIntegerArrayListExtra("catCollection", ArrayList(catCollection))
-                    resultLauncher.launch(intent)
-                }) {
+                Button(
+                    onClick = {
+                        val intent = Intent(context, CatDraw::class.java)
+                        intent.putExtra("nscoinCount", nscoinCount)
+                        intent.putIntegerArrayListExtra("catCollection", ArrayList(catCollection))
+                        resultLauncher.launch(intent)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
+                    shape = RoundedCornerShape(0.dp), // 네모난 테두리
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
                     Text(text = "고양이 뽑으러 가기")
                 }
-                Button(onClick = {
-                    val intent = Intent(context, CatBook::class.java)
-                    intent.putIntegerArrayListExtra("catCollection", ArrayList(catCollection))
-                    context.startActivity(intent)
-                }) {
+
+                Button(
+                    onClick = {
+                        val intent = Intent(context, CatBook::class.java)
+                        intent.putIntegerArrayListExtra("catCollection", ArrayList(catCollection))
+                        context.startActivity(intent)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
+                    shape = RoundedCornerShape(0.dp), // 네모난 테두리
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp)
+                ) {
                     Text(text = "고양이 도감 보러 가기")
                 }
 
