@@ -20,8 +20,9 @@
         <activity android:name=".CatDetailActivity"/>
         <activity android:name=".CatDraw"/>
         <activity android:name=".CatBook"/>
+        <activity android:name=".MainActivity"/>
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:exported="true"
             android:label="냥스텝"
             android:theme="@style/Theme.MainActivity">
