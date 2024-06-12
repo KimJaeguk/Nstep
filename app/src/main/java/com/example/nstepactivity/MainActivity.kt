@@ -21,7 +21,9 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +46,7 @@ import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
+    // 상태 변수 정의
     private var nscoinCount by mutableStateOf(0)
     private var stepCount by mutableStateOf(0L)
     private var selectedCats by mutableStateOf(emptyList<Int>())
@@ -77,9 +80,11 @@ class MainActivity : ComponentActivity() {
         activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
         val screenSize = IntSize(displayMetrics.widthPixels, displayMetrics.heightPixels)
 
+        // 센서 관리자 설정
         val sensorManager = context.getSystemService(SensorManager::class.java)
         val sensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
 
+        // 발걸음 센서 이벤트 리스너 설정
         LaunchedEffect(Unit) {
             val listener = object : SensorEventListener {
                 override fun onSensorChanged(event: SensorEvent?) {
@@ -88,7 +93,7 @@ class MainActivity : ComponentActivity() {
                     }
                     stepCount++
 
-                    if (stepCount % 10 == 0L) {
+                    if (stepCount % 10 == 0L) { // 10걸음마다 코인 증가
                         nscoinCount += 100
                     }
                 }
@@ -100,6 +105,7 @@ class MainActivity : ComponentActivity() {
         }
 
         Box(modifier = Modifier.fillMaxSize()) {
+            // 배경 이미지 설정
             Image(
                 painter = painterResource(id = R.drawable.grass_background),
                 contentDescription = null,
@@ -111,6 +117,7 @@ class MainActivity : ComponentActivity() {
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier.fillMaxSize().padding(16.dp)
             ) {
+                // 발걸음 수 텍스트
                 Text(
                     text = "발걸음 수: $stepCount",
                     fontSize = 24.sp,
@@ -118,14 +125,29 @@ class MainActivity : ComponentActivity() {
                     color = Color.White,
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
-                Text(
-                    text = "NS코인: $nscoinCount",
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
+                // NS코인 텍스트와 이미지
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.ns_coin),
+                        contentDescription = "NS Coin",
+                        modifier = Modifier
+                            .size(24.dp)
+                            .align(Alignment.CenterVertically)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = "NS코인: $nscoinCount",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
 
+                // 고양이 뽑기 버튼
                 Button(
                     onClick = {
                         val intent = Intent(context, CatDraw::class.java)
@@ -134,14 +156,15 @@ class MainActivity : ComponentActivity() {
                         resultLauncher.launch(intent)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
-                    shape = RoundedCornerShape(0.dp), // 네모난 테두리
+                    shape = RoundedCornerShape(0.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(200.dp)
                         .padding(vertical = 8.dp)
                 ) {
-                    Text(text = "고양이 뽑으러 가기")
+                    Text(text = "고양이 뽑으러 가기", color = Color.White)
                 }
 
+                // 고양이 도감 보기 버튼
                 Button(
                     onClick = {
                         val intent = Intent(context, CatBook::class.java)
@@ -149,17 +172,18 @@ class MainActivity : ComponentActivity() {
                         context.startActivity(intent)
                     },
                     colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray),
-                    shape = RoundedCornerShape(0.dp), // 네모난 테두리
+                    shape = RoundedCornerShape(0.dp),
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(200.dp)
                         .padding(vertical = 8.dp)
                 ) {
-                    Text(text = "고양이 도감 보러 가기")
+                    Text(text = "고양이 도감 보러 가기", color = Color.White)
                 }
+            }
 
-                if (catCollection.isNotEmpty()) {
-                    CatAnimation(catCollection, screenSize)
-                }
+            // 고양이 애니메이션
+            if (catCollection.isNotEmpty()) {
+                CatAnimation(catCollection, screenSize)
             }
         }
     }
@@ -195,8 +219,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
 
-            AsyncImage(
-                model = "file:///android_asset/${getCatImageResource(catIndex)}",
+            Image(
+                painter = painterResource(id = getCatImageResource(catIndex)),
                 contentDescription = null,
                 modifier = Modifier
                     .size(100.dp)
@@ -214,15 +238,20 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun getCatImageResource(catIndex: Int): String {
+    private fun getCatImageResource(catIndex: Int): Int {
         return when (catIndex) {
-            0 -> "runa_m.gif"
-            1 -> "mailo_m.gif"
-            2 -> "oliver_m.gif"
-            3 -> "reo_m.gif"
-            4 -> "nero_m.gif"
-            5 -> "cheeze_m.gif"
-            else -> ""
+            0 -> R.drawable.runa
+            1 -> R.drawable.mailo
+            2 -> R.drawable.oliver
+            3 -> R.drawable.reo
+            4 -> R.drawable.nero
+            5 -> R.drawable.cheeze
+            6 -> R.drawable.shadow
+            7 -> R.drawable.wiskers
+            8 -> R.drawable.eco
+            9 -> R.drawable.zet
+            10 -> R.drawable.star
+            else -> R.drawable.placeholder // 기본 이미지 리소스
         }
     }
 
